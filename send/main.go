@@ -8,13 +8,18 @@ import (
 )
 
 func main() {
-	list := os.Args
-	path := list[1]
-	fileInfo := delErr(os.Stat(path))
-	fmt.Println("file name:", fileInfo.Name())
-	fmt.Println("file size:", fileInfo.Size())
+	var (
+		path string
+		host string
+	)
+	fmt.Print("请输入需要传入文件地址，按回车键结束 \n")
+	fmt.Scanf("%s", &path)
+	fmt.Print("请输入需要发送的ip地址，按回车键结束 \n")
+	fmt.Scanf("%s", &host)
+	fmt.Println("path:", path, "host:", host)
 
-	conn := delErr(net.Dial("tcp", "localhost:8000"))
+	fileInfo := delErr(os.Stat(path))
+	conn := delErr(net.Dial("tcp", host))
 	defer conn.Close()
 
 	// 发送文件名

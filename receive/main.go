@@ -7,8 +7,11 @@ import (
 )
 
 func main() {
-	listener := delErr(net.Listen("tcp", "localhost:8000"))
-	fmt.Println("loacl host", listener.Addr())
+	var host string
+	fmt.Print("请输入需要发送的ip地址，按回车键结束 \n")
+	fmt.Scanf("%s", &host)
+	fmt.Println("localhost:", host)
+	listener := delErr(net.Listen("tcp", "localhost:"+host))
 	defer listener.Close()
 
 	conn := delErr(listener.Accept())
