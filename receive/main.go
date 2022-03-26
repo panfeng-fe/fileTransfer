@@ -34,10 +34,13 @@ func delErr[T any](res T, err error) T {
 func receiveFile(conn net.Conn, fileName string) {
 	f := delErr(os.Create(fileName))
 	defer f.Close()
-	buf := make([]byte, 1024*1024)
+	buf := make([]byte, 1024*1024*1024*10)
+	idx := 1
 
 	for {
 		n, _ := conn.Read(buf)
+		fmt.Println("第", idx, "次接收")
+		idx++
 		if n == 0 {
 			fmt.Println("receive file over")
 			return
