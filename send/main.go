@@ -14,7 +14,7 @@ func main() {
 	)
 	fmt.Print("请输入需要传入文件地址，按回车键结束 \n")
 	fmt.Scanf("%s", &path)
-	fmt.Print("请输入需要发送的ip地址，按回车键结束 \n")
+	fmt.Print("请输入需要发送的公网ip地址，按回车键结束 \n")
 	fmt.Scanf("%s", &host)
 	fmt.Println("path:", path, "host:", host)
 
@@ -42,15 +42,17 @@ func delErr[T any](res T, err error) T {
 		panic(err)
 	}
 	return res
-
 }
 
 func sendFile(conn net.Conn, filePath string) {
 	f := delErr(os.Open(filePath))
 	defer f.Close()
-	buf := make([]byte, 1024*1024)
+	buf := make([]byte, 1024*1024*1024*10)
+	idx := 1
 	for {
 		n, err := f.Read(buf)
+		fmt.Println("第", idx, "次发送")
+		idx++
 		if err != nil {
 			if err == io.EOF {
 				fmt.Println("send file over")
